@@ -1,0 +1,25 @@
+Console.WriteLine("Введите число в 10 с.с.: ");
+    int vvod = Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine("Введите количество нулей: ");
+    int nulls = Convert.ToInt32(Console.ReadLine());
+    int count = 0;
+    string q = "";
+    for(int i = 0; i < vvod; i++)
+    {
+        string g = Convert.ToString(i, 2);
+        int counter = 0;
+        foreach (char c in g)
+        {
+            
+            if (Convert.ToString(c) == "0")
+            {
+                counter++;
+            }
+        }
+        //Console.WriteLine(g);
+        if (counter == nulls)
+        {
+            count++;
+        }
+    }
+    Console.WriteLine(count);
