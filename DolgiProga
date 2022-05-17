@@ -1,0 +1,299 @@
+Console.WriteLine("Введите номер задачи: ");
+Console.WriteLine("1 - Частота символов, 2 - Тест, 3 - Стек, 4 - Шифрование файлов");
+int a = Convert.ToInt32(Console.ReadLine());
+switch (a)
+{
+    case 1:
+        CountLine();
+        break;
+    case 2:
+        Test();
+        break;
+    case 3:
+        Stak2();
+        break;
+    case 4:
+        Shifr();
+        break;
+}
+static void CountLine() {
+    Console.WriteLine("Введите число в 10 с.с.: ");
+    int vvod = Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine("Введите количество нулей: ");
+    int nulls = Convert.ToInt32(Console.ReadLine());
+    int count = 0;
+    string q = "";
+    for(int i = 0; i < vvod; i++)
+    {
+        string g = Convert.ToString(i, 2);
+        int counter = 0;
+        foreach (char c in g)
+        {
+            
+            if (Convert.ToString(c) == "0")
+            {
+                counter++;
+            }
+        }
+        //Console.WriteLine(g);
+        if (counter == nulls)
+        {
+            count++;
+        }
+    }
+    Console.WriteLine(count);
+}
+
+static void Test()
+{
+    Console.Write("Введите режим работы программы: ");
+    Console.WriteLine("1 - Пройти тест; 2 - Создать тест.");
+    string numb = Console.ReadLine();
+    if (numb == "1")
+    {
+        String path = (@"C:\\Users\\Stud\\Desktop\\ask.txt");
+        String pathsave = (@"C:\\Users\\Stud\\Desktop\\save.txt");
+        StreamReader reader = new StreamReader(path);
+        FileInfo fileInfo = new FileInfo(pathsave);
+        int tr = 0;
+        Console.Write("Введите фамилию: ");
+        string fam = Console.ReadLine();
+        int count = System.IO.File.ReadAllLines(path).Length;
+        for (int i = 1; i < count; i++)
+        {
+            Console.WriteLine(reader.ReadLine());
+            if (i % 2 == 0 && i != 0)
+            {
+                Console.Write("Введите ответ: ");
+                string d = Console.ReadLine();
+                string sss = reader.ReadLine();
+                if (sss != null)
+                {
+                    if (sss.Contains("Ответ: " + d))
+                    {
+                        Console.WriteLine("Ответ верный.");
+                        tr++;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ответ не верный.");
+                    }
+                }
+            }
+        }
+
+        using (StreamWriter sw = new StreamWriter(pathsave))
+        {
+            sw.WriteLine(fam);
+            sw.WriteLine(tr);
+        }
+        Console.WriteLine("Колличество верных ответов: " + tr);
+        Console.ReadKey();
+    }
+    else if (numb == "2")
+    {
+        Console.WriteLine("В разработке.");
+    }
+    else
+    {
+        Console.WriteLine("Данного режима не сщуествует. Ошибка программы.");
+    }
+}
+
+void Stak()
+{
+    Console.WriteLine("Введите строку, состоящую из скобок: ");
+    string vvod = Console.ReadLine();
+    List<char> listof = new List<char>() {};
+    Stack<char> charing = new Stack<char>();
+    foreach (char q in vvod) listof.Add(q);
+    for (int i = 0; i < listof.Count - 1; i++)
+    {
+        if ((listof[i] == Convert.ToChar("{")) && (listof[i + 1] == Convert.ToChar("}")))
+        {
+            charing.Push(listof[i + 1]);
+            charing.Push(listof[i]);
+            
+        }
+        else if ((listof[i] == Convert.ToChar("[")) && (listof[i + 1] == Convert.ToChar("]")))
+        {
+            charing.Push(listof[i + 1]);
+            charing.Push(listof[i]);
+        }
+        else if ((listof[i] == Convert.ToChar("(")) && (listof[i + 1] == Convert.ToChar(")")))
+        {
+            charing.Push(listof[i + 1]);
+            charing.Push(listof[i]);
+        }
+    }
+    for (int i = 0; i < listof.Count - 1; i++)
+    {
+        if ((listof[i] == Convert.ToChar("{")) && (listof[i + 1] == Convert.ToChar("}")))
+        {
+            listof.Remove(listof[i + 1]);
+            listof.Remove(listof[i]);
+        }
+        else if ((listof[i] == Convert.ToChar("[")) && (listof[i + 1] == Convert.ToChar("]")))
+        {
+            listof.Remove(listof[i + 1]);
+            listof.Remove(listof[i]);
+        }
+        else if ((listof[i] == Convert.ToChar("(")) && (listof[i + 1] == Convert.ToChar(")")))
+        {
+            listof.Remove(listof[i + 1]);
+            listof.Remove(listof[i]);
+        }
+    }
+    for(int i = 0; i < listof.Count - 1; i++)
+    {
+        if(listof[i] == Convert.ToChar("["))
+        {
+            int j = 0;
+            while(listof[j] == Convert.ToChar("]"))
+            {
+                if (listof[j] == Convert.ToChar("]")) 
+                { 
+                    charing.Push(listof[j]);
+                }
+                j++;
+            }
+            charing.Push(listof[i]);
+        }
+        
+    }
+    //line
+    foreach (char c in listof)
+    {
+        Console.Write(c);
+    }
+    Console.WriteLine();
+    //stek
+    foreach (char c in charing)
+    {
+        Console.Write(c);
+    }
+}
+
+
+void Stak2()
+{
+    Console.WriteLine("Введите строку, состоящую из скобок: ");
+    string vvod = Console.ReadLine();
+    List<char> listof = new List<char>() { };
+    Stack<char> charing = new Stack<char>();
+    int j = 0;
+    foreach (char q in vvod) listof.Add(q);
+    for (int i = 0; i < listof.Count - 1; i++)
+    {
+        if(listof[i] == Convert.ToChar("["))
+        {
+            charing.Push(listof[i]);
+            listof.RemoveAt(i);
+            j = listof.Count - 1;
+            while(j > 0)
+            {
+                if(listof[j] == Convert.ToChar("]"))
+                {
+                    charing.Push(listof[j]);
+                    listof.RemoveAt(j);
+                }
+                j--;
+            }
+        }  
+    }
+    //line
+    foreach (char c in listof)
+    {
+        Console.Write(c);
+    }
+    Console.WriteLine("Stek");
+    //stek
+    foreach (char c in charing)
+    {
+        Console.Write(c);
+    }
+}
+
+
+
+void Shifr()
+{
+    string path = @"C:\Users\User\Desktop\jobs\read.txt";
+    string path2 = @"C:\Users\User\Desktop\jobs\result.txt";
+    string path3 = @"C:\Users\User\Desktop\jobs\deshifr.txt";
+    string path4 = @"C:\Users\User\Desktop\jobs\shifr.txt";
+    Console.WriteLine("Введите ключ-число");
+    string number = Console.ReadLine();
+    char[] shifr = number.ToCharArray();
+    using (StreamReader str = new StreamReader(path))
+    {
+        using (StreamWriter stw = new StreamWriter(path2))
+        {
+            string line;
+            string k = "";
+            while ((line = str.ReadLine()) != null)
+            {
+                char[] cvv = line.ToCharArray();
+                foreach (char i in cvv)
+                {
+                    k = Convert.ToString(i) + number;
+                    stw.Write($"{k} ");
+                }
+                stw.WriteLine();
+            }
+        }
+    }
+    Console.WriteLine("Шифрование выполнено");
+    Console.ReadKey();
+    using (StreamReader dstr = new StreamReader(path2))
+    {
+        using (StreamWriter dstw = new StreamWriter(path3))
+        {
+            string line;
+            string k = "";
+            while ((line = dstr.ReadLine()) != null)
+            {
+                char[] cvv = line.ToCharArray();
+                foreach (char i in cvv)
+                {
+                    k = Convert.ToString(i);
+                    if (!shifr.Contains(i))
+                    {
+                        dstw.Write(k);
+                    }
+                }
+                dstw.WriteLine();
+            }
+        }
+    }
+    Console.WriteLine("Дешифрование выполнено");
+    using (StreamReader str = new StreamReader(path))
+    {
+        using (StreamWriter stw = new StreamWriter(path4))
+        {
+            int j = 0;
+            string line;
+            string k = "";
+            while ((line = str.ReadLine()) != null)
+            {
+                char[] cvv = line.ToCharArray();
+                foreach (char i in cvv)
+                {
+                    j++;
+                    if (j % 2 == 0)
+                    {
+                        k = Convert.ToString(i) + number;
+                        stw.Write($"{k} ");
+                    }
+                    else
+                    {
+                        k = Convert.ToString(i);
+                        stw.Write($"{k} ");
+                    }
+                }
+                stw.WriteLine();
+            }
+        }
+    }
+    Console.WriteLine("Шифрование через 1 выполнено");
+}
